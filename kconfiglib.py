@@ -1725,6 +1725,9 @@ class Kconfig(object):
                             (self._lookup_const_sym(os.environ[env_var]),
                              self.y))
 
+                elif self._check_token(_T_SOURCE_DIR) and self._check_token(_T_EQUAL):
+                    node.item.source_dirs.append(self._next_token())
+
                 elif self._check_token(_T_DEFCONFIG_LIST):
                     if not self.defconfig_list:
                         self.defconfig_list = node.item
@@ -2284,6 +2287,7 @@ class Symbol(object):
         "selects",
         "user_value",
         "weak_rev_dep",
+        "source_dirs",
     )
 
     #
@@ -2731,6 +2735,8 @@ class Symbol(object):
         self.ranges = []
 
         self.nodes = []
+
+        self.source_dirs = []
 
         self.user_value = None
 
@@ -4072,7 +4078,8 @@ STR_TO_TRI = {
     _T_TRISTATE,
     _T_UNEQUAL,
     _T_VISIBLE,
-) = range(44)
+    _T_SOURCE_DIR,
+) = range(45)
 
 # Keyword to token map, with the get() method assigned directly as a small
 # optimization
@@ -4111,6 +4118,7 @@ _get_keyword = {
     "string":         _T_STRING,
     "tristate":       _T_TRISTATE,
     "visible":        _T_VISIBLE,
+    "source_dir":     _T_SOURCE_DIR,
 }.get
 
 # Tokens after which identifier-like lexemes are treated as strings. _T_CHOICE
