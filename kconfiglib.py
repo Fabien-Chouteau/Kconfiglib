@@ -513,7 +513,7 @@ class Kconfig(object):
     # Public interface
     #
 
-    def __init__(self, filename="Kconfig", warn=True):
+    def __init__(self, filename="Kconfig", warn=True, srctree=None, config_prefix=None):
         """
         Creates a new Kconfig object by parsing Kconfig files. Raises
         KconfigSyntaxError on syntax errors. Note that Kconfig files are not
@@ -538,11 +538,17 @@ class Kconfig(object):
           Kconfig.enable/disable_warnings(). It is provided as a constructor
           argument since warnings might be generated during parsing.
         """
-        self.srctree = os.environ.get("srctree")
+        if srctree is not None:
+            self.srctree = srctree
+        else:
+            self.srctree = os.environ.get("srctree")
 
-        self.config_prefix = os.environ.get("CONFIG_")
-        if self.config_prefix is None:
-            self.config_prefix = "CONFIG_"
+        if config_prefix is not None:
+            self.config_prefix = config_prefix
+        else:
+            self.config_prefix = os.environ.get("CONFIG_")
+            if self.config_prefix is None:
+                self.config_prefix = "CONFIG_"
 
         # Regular expressions for parsing .config files, with the get() method
         # assigned directly as a small optimization (microscopic in this case,
