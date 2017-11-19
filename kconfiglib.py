@@ -1043,7 +1043,9 @@ class Kconfig(object):
                      "   type Boolean is (\"True\", \"False\");\n" + \
                      "   Src_dirs := ();\n\n"
 
-        gpr_footer = "\nend Config;\n";
+        gpr_footer = "\n" + \
+                     "   Src_Dirs := Src_Dirs & Project'Project_Dir;\n" + \
+                     "end Config;\n";
 
         def config_to_gpr(item):
 
