@@ -1008,6 +1008,9 @@ class Kconfig(object):
                           '{0} : constant Tristate := {1};\n'.format(item.name, val))
 
             elif item.type == INT or item.type == HEX:
+                if val == "":
+                    return ""
+
                 return ("   " + item.kconfig.config_prefix +
                         "{0} : constant := {1};\n".format(item.name, val))
 
