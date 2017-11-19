@@ -987,6 +987,9 @@ class Kconfig(object):
                     _internal_error("Internal error while creating config.ads:" +
                                     "invalid boolean value")
 
+                if val == "False" and item.visibility == 0:
+                    return ''
+
                 return ('   ' + item.kconfig.config_prefix +
                         '{0} : constant Boolean := {1};\n'.format(item.name, val))
 
@@ -1054,6 +1057,9 @@ class Kconfig(object):
                 else:
                     _internal_error("Internal error while creating config.ads:" +
                                     "invalid boolean value")
+
+                if val == "False" and item.visibility == 0:
+                    return ''
 
                 src_dirs = ""
                 if item.source_dirs and val == "True":
